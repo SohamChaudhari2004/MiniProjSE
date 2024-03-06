@@ -10,14 +10,16 @@ loginForm.addEventListener('submit', async function(event) {
     const pass = password.value;
 
     try {
-        const response = await fetch('http://localhost:8080/login', {
+        const response = await fetch('http://localhost:8090/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({email: user,password: pass })
         });
-
+        if(response.ok){
+            window.location.href='http://127.0.0.1:5500/html/Donor_panel.html'
+        }
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
