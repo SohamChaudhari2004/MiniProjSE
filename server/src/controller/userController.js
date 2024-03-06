@@ -27,20 +27,17 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     const {email,password}=req.body;
+    console.log(email,password)
     const user = await User.findOne({ email });
-    if (user && (await user.matchPassword(password))) {
-        res.json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            username: user.username,
-            mobile: user.mobile,
-            token: generateToken(user._id),
-        });
-    } else {
-        res.status(401);
-        throw new Error('Invalid email or password');
-    }};
+    if(!user){
+        res.send({message:"user doesn;t exist please reigster first"})
+    }
+        if(password!==user.password){
+            res.send({message:"Password doesn't match"})
+
+        }
+        res.send({succes:true,message:"login successfull"})
+    };
 
 export const getAllUser= async (req, res) => {
     const users = await User.find({});
